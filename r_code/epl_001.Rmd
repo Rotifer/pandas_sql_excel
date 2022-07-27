@@ -1,0 +1,48 @@
+---
+title: "Importing, selecting, ordering and filtering data"
+author: "mick@javascript-spreadsheet-programming.com"
+date: "2022-07-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Outline
+
+In order to start analysing our data, we need to import it. Here we use the _readr_ package to import a
+tab-separated file with the final club standings for 30 30 seasons of the English Premier league. Once we have imported the data, we will want to get a feel for its structure by determining the row and column counts and the data types of the columns. We can then move on to summarizing the data in various ways. All of these tasks can be accomplished by using _tidyverse_ packages or by using the older base R functions. I use a mixture of both but, to distinguish the two, I qualify the tidyverse functions with the package name followed by a double colon so you will see syntax like _readr::read_delim__ where _readr_ is the package (imported as part of the tidyverse) and _read_delim_ is the function.
+
+
+## Importing the data
+
+Import data using the _readr_ package imported with _tidyverse_
+
+```{r}
+library(tidyverse)
+data_filepath <- file.path(Sys.getenv("HOME"), "pandas_sql_excel", "notebooks/data/prem_league_final_tables.tsv")
+efl_tables_tb <- readr::read_delim(data_filepath, delim="\t", show_col_types = FALSE)
+```
+
+
+## PostgreSQL connection
+
+```{r}
+library(DBI)
+# Connect to a specific postgres database i.e. Heroku
+con <- dbConnect(RPostgres::Postgres(),dbname = 'epl', 
+                 host = '127.0.0.1', # i.e. 'ec2-54-83-201-96.compute-1.amazonaws.com'
+                 port = 5432, # or any other port specified by your DBA
+                 user = 'mfm45656',
+                 password = '')
+DBI::dbWriteTable(con, "final_league_table", efl_tables_tb, overwrite=TRUE, field.types = c(season="TEXT", club_name="TEXT", games_won="INTEGER", games_drawn="INTEGER", games_lost="INTEGER", goals_scored="INTEGER", goals_conceded="INTEGER", goal_difference="INTEGER", points_total="INTEGER"))
+DBI::dbDisconnect(con)
+```
+
+```{r}
+seasons_games_filepath <- file.path(Sys.getenv("HOME"), "SHARED_DATA", "epl_2000_to_2018_final_dataset.csv")
+seasons_games_2000_2018 <- readr::read_csv(seasons_games_filepath)
+nrow(seasons_games_2000_2018)
+```
+
