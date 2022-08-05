@@ -1,0 +1,54 @@
+model:
+  databases:
+  - DB_NAME_LIST
+  description: USER_DESCRIPTION
+  name: MODEL_NAME
+  release_date: RELEASE_DATE
+  version: VERSION
+tables:
+  rare_variant_region_results_sig:
+    columns:
+      analysis:
+        comment: '"analysis ID of the corresponding gwas Criteria: rare_variant_region_analyses.exact_gwas_match'
+        datatype: STRING
+        nullable: false
+        ordinal_position: 4
+      current_hgnc:
+        comment: 'gene name Criteria: rare_variant_region_results.gene_symbol'
+        datatype: STRING
+        nullable: false
+        ordinal_position: 5
+      rvr_analysis:
+        comment: 'analysis ID of the rvr test Criteria: rare_variant_region_results.analysis'
+        datatype: STRING
+        nullable: false
+        ordinal_position: 3
+      rvr_genetest_other:
+        comment: '"if any other region test (deleterious missense, missense) has p<1e-4
+          Criteria: COLLAPSE across maf_threshold for each analysis/gene_symbol pair:'
+        datatype: BOOLEAN
+        nullable: false
+        ordinal_position: 1
+      rvr_genetest_plof:
+        comment: '"if LoF region test has p<1e-4 Criteria: COLLAPSE across maf_threshold
+          for each analysis/gene_symbol pair:'
+        datatype: BOOLEAN
+        nullable: false
+        ordinal_position: 0
+      rvr_genetest_plof_direction:
+        comment: '"""+"" if gene burden is an antagonist and ""-"" if gene burden
+          is an agonist Criteria: ""+"" if rare_variant_region_results.beta < 0, ""-""
+          if rare_variant_region_results.beta > 0'
+        datatype: STRING
+        nullable: false
+        ordinal_position: 2
+      rvr_new_evidence:
+        comment: '"True if the pLoF gene test has p<1e-7 Criteria: COLLAPSE across
+          maf_threshold for each analysis/gene_symbol pair:'
+        datatype: BOOLEAN
+        nullable: false
+        ordinal_position: 6
+    meta:
+      description: This table contains significant rare variant region test results
+      format: parquet
+      table_type: table

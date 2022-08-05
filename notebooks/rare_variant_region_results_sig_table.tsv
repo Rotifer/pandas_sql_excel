@@ -1,0 +1,13 @@
+column_name	ordinal_position	datatype	nullable	comment	restricted_set	valid_range
+rvr_genetest_plof	0	BOOLEAN	FALSE	"if LoF region test has p<1e-4 Criteria: COLLAPSE across maf_threshold for each analysis/gene_symbol pair: 
+TRUE if rare_variant_region_results.region_type = 'LoF' and rare_variant_region_results.pval < 1e-4"		
+rvr_genetest_other	1	BOOLEAN	FALSE	"if any other region test (deleterious missense, missense) has p<1e-4 Criteria: COLLAPSE across maf_threshold for each analysis/gene_symbol pair: 
+TRUE if (rare_variant_region_results.region_type = 'Missense' or region_type = 'DeleteriousMissense' and rare_variant_region_results.pval < 1e-4"		
+rvr_genetest_plof_direction	2	STRING	FALSE	"""+"" if gene burden is an antagonist and ""-"" if gene burden is an agonist Criteria: ""+"" if rare_variant_region_results.beta < 0, ""-"" if rare_variant_region_results.beta > 0 
+FROM THE CORRESPONDING analysis/gene_symbol/maf_threshold that gives rvr_genetest_plof=TRUE above"		
+rvr_analysis	3	STRING	FALSE	analysis ID of the rvr test Criteria: rare_variant_region_results.analysis		
+analysis	4	STRING	FALSE	"analysis ID of the corresponding gwas Criteria: rare_variant_region_analyses.exact_gwas_match 
+where rare_variant_region_results.analysis = rare_variant_region_analyses.analysis"		
+current_hgnc	5	STRING	FALSE	gene name Criteria: rare_variant_region_results.gene_symbol		
+rvr_new_evidence	6	BOOLEAN	FALSE	"True if the pLoF gene test has p<1e-7 Criteria: COLLAPSE across maf_threshold for each analysis/gene_symbol pair: 
+TRUE if rare_variant_region_results.region_type = 'LoF' and rare_variant_region_results.pval < 1e-7"		

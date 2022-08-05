@@ -1,0 +1,28 @@
+model:
+    databases:
+        - DB_NAME_LIST
+    description: USER_DESCRIPTION
+    name: MODEL_NAME
+    release_date: RELEASE_DATE
+    version: VERSION
+tables:
+    TABLE_NAME:
+        columns:
+            COLUMN_NAME:
+                comment: COLUMN_COMMENT
+                datatype: COLUMN_DATATYPE
+                nullable: COLUMN_NULLABLE
+                ordinal_position: COLUMN_ORDINAL_POSITION
+                restricted_set: COLUMN_RESTRICTED_SET_OPTIONAL
+                valid_range: COLUMN_VALID_RANGE_OPTIONAL
+        meta:
+            description: TABLE_DESCRIPTION
+            format: TABLE_FORMAT
+            table_type: TABLE_TYPE
+        references:
+            REFERENCED_TABLE_NAME:
+                referenced_column: REFERENCED_COLUMN
+                referencing_column: REFERENCING_COLUMN
+        unique:
+            UNIQUE_CONSTRAINT_NAME:
+                - UNIQUE_COLUMN_LIST
